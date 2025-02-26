@@ -5,7 +5,8 @@ import psutil  # Import psutil for system metrics
 from utils.helpers import get_process_info  # Import process fetching function
 
 # Set Page Config
-st.set_page_config(page_title="Home - Process Visualization", layout="wide")
+st.set_page_config(page_title="Process Visualization Tool", layout="wide", initial_sidebar_state="collapsed")
+
 
 # Title and Description
 st.title("🏠 Home - Process Visualization Tool")
