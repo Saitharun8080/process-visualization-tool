@@ -1,11 +1,17 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 import matplotlib.pyplot as plt
 from algorithms.fcfs import fcfs_scheduling, generate_gantt_chart as generate_fcfs_gantt
 from algorithms.sjf import sjf_scheduling, generate_gantt_chart as generate_sjf_gantt
 from algorithms.priority import priority_scheduling, generate_gantt_chart as generate_priority_gantt
 from algorithms.round_robin import round_robin_scheduling, generate_gantt_chart as generate_rr_gantt
 
+st.set_page_config(
+    page_title="Process Visualization Tool",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 # Streamlit UI
 st.title("Process Scheduling Visualization")
 
@@ -98,6 +104,34 @@ if st.button("Compute Scheduling"):
             col1, col2 = st.columns(2)
             col1.metric("Average Turnaround Time", f"{avg_turnaround:.2f}")
             col2.metric("Average Waiting Time", f"{avg_waiting:.2f}")
+            # In the Compute Scheduling section, update the history entry creation:
+            # In the Compute Scheduling section, add throughput calculation:
+            throughput = len(process_data) / max(completion) if max(completion) > 0 else 0
+
+            # Update the history_entry to include throughput:
+            history_entry = {
+                'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M"),
+                'algorithm': algorithm,
+                'num_processes': num_processes,
+                'results': {
+                    'avg_waiting': round(avg_waiting, 2),
+                    'avg_turnaround': round(avg_turnaround, 2),
+                    'throughput': round(throughput, 2)
+                },
+                'process_details': df.to_dict('records')
+            }
+
+            if 'simulation_history' not in st.session_state:
+                st.session_state.simulation_history = []
+            st.session_state.simulation_history.append(history_entry)
+            
+            # # Display results
+            # st.subheader("Results")
+            # st.dataframe(pd.DataFrame(result['table']))
+            
+            # st.subheader("Gantt Chart")
+            # st.image(result['gantt'])
 
         except Exception as e:
             st.error(f"Error computing scheduling: {e}")
+            # After running a simulation in your Scheduling.py:
