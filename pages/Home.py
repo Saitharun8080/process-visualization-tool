@@ -3,11 +3,11 @@ import pandas as pd
 import time
 import psutil  # Import psutil for system metrics
 from utils.helpers import get_process_info  # Import process fetching function
-st.set_page_config(
-    page_title="Process Visualization Tool",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+# st.set_page_config(
+#     page_title="Process Visualization Tool",
+#     layout="wide",
+#     initial_sidebar_state="collapsed"
+# )
 # Set Page Config
 st.set_page_config(page_title="Process Visualization Tool", layout="wide", initial_sidebar_state="collapsed")
 
